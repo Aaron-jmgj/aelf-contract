@@ -1,0 +1,13 @@
+.ContractDemo {
+  .ant-card-bordered {
+    @apply rounded-md;
+  }
+
+  .ant-card-head {
+    @apply bg-transparent rounded-md;
+  }
+
+  .ant-btn {
+    @apply rounded-md;
+  }
+}
