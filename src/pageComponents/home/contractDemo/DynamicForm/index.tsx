@@ -1,4 +1,4 @@
-import { IMethod } from 'types';
+import { IMethod } from '../../contractDemo';
 import { Collapse } from 'antd';
 
 import FormItem from './formItem';

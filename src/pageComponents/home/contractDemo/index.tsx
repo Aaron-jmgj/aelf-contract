@@ -12,8 +12,8 @@ export interface IMethod {
   name: string;
   input: string[];
   fn: any;
-  key: string | number;
-  activeKey: string | number;
+  key?: string | number;
+  activeKey?: string | number;
 }
 
 export const tokenContractAddress = 'JRmBduh4nXWi1aXgdUsj5gJrzeZb2LxmrAbf7W99faZSvoAaE';

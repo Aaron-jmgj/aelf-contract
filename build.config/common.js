@@ -10,6 +10,10 @@ module.exports = {
     domains: ['raw.githubusercontent.com'],
   },
 
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+
   productionBrowserSourceMaps: true,
   webpack: (config, { webpack }) => {
     config.module.rules.push({

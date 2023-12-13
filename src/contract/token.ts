@@ -29,7 +29,7 @@ const multiTokenContractRequest = async <T, R>(
         args: params,
       });
 
-      const result = res as IContractError;
+      const result = res as unknown as IContractError;
       if (result?.error || result?.code || result?.Error) {
         return Promise.reject(formatErrorMsg(result));
       }
@@ -42,7 +42,7 @@ const multiTokenContractRequest = async <T, R>(
         args: params,
       });
 
-      const result = res as IContractError;
+      const result = res as unknown as IContractError;
 
       if (result?.error || result?.code || result?.Error) {
         return Promise.reject(formatErrorMsg(result));
