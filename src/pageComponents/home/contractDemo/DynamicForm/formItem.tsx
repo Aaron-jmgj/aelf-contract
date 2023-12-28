@@ -3,10 +3,10 @@
 import { Divider, Form, Input, Button, Collapse } from 'antd';
 import { useState } from 'react';
 import { useAElfReact } from '@aelf-react/core';
-import { IMethod, tokenContractAddress } from '../index';
+import { IMethod } from '../index';
 import ReactJson from 'react-json-view';
 
-export default function FormItem({ name, input, fn, activeKey }: IMethod) {
+export default function FormItem({ name, input, fn, address }: IMethod) {
   const { account, activate, defaultAElfBridge } = useAElfReact();
   const [form] = Form.useForm();
   const [toggle, setToggle] = useState(false);
@@ -15,7 +15,10 @@ export default function FormItem({ name, input, fn, activeKey }: IMethod) {
     // get all fileds value with param true
     const filedsValue = form.getFieldsValue();
     try {
-      const result = await fn.call(filedsValue);
+      const result =
+        filedsValue && Object.keys(filedsValue).length
+          ? await fn.call(filedsValue)
+          : await fn.call();
       setRes(result);
     } catch (e: any) {
       setRes(e);
@@ -30,14 +33,13 @@ export default function FormItem({ name, input, fn, activeKey }: IMethod) {
 
     try {
       await defaultAElfBridge.chain.getChainStatus();
-      const contract = await defaultAElfBridge.chain.contractAt(tokenContractAddress, {
+      const contract = await defaultAElfBridge.chain.contractAt(address, {
         address: account as string,
       });
       const result = await contract[name](filedsValue);
       setRes(result);
       return;
     } catch (e: any) {
-      debugger;
       setRes(e);
     }
   };

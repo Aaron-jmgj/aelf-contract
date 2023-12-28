@@ -13,6 +13,7 @@ export interface IMethod {
   input: string[];
   fn: any;
   key?: string | number;
+  address: string;
   activeKey?: string | number;
 }
 
@@ -30,7 +31,6 @@ function ContractDemo() {
     try {
       const tokenContract = await getContractInstance(tokenContractAddress, rpcUrl);
       console.log('tokenContract', tokenContract);
-
       const tokenMethods = adjustMethods(tokenContract);
       console.log('tokenMethods', tokenContract);
 
@@ -117,7 +117,7 @@ function ContractDemo() {
         )}
       </Card>
       <Card type="inner" title={<div className="text-lg font-bold">Methods</div>}>
-        <DynamicForm methods={methods}></DynamicForm>
+        <DynamicForm methods={methods} address={tokenContractAddress}></DynamicForm>
       </Card>
     </Card>
   );

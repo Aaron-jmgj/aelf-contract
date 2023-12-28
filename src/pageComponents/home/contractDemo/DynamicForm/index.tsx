@@ -5,7 +5,7 @@ import FormItem from './formItem';
 
 const { Panel } = Collapse;
 
-export default function DynamicForm({ methods }: { methods: IMethod[] }) {
+export default function DynamicForm({ methods, address }: { methods: IMethod[]; address: string }) {
   return (
     <Collapse defaultActiveKey={['0']} className="rounded-md">
       {methods.map((ele, i) => {
@@ -15,7 +15,7 @@ export default function DynamicForm({ methods }: { methods: IMethod[] }) {
             header={<span className="font-semibold">{ele.name}</span>}
             showArrow={false}
           >
-            <FormItem name={ele.name} input={ele.input} fn={ele.fn}></FormItem>
+            <FormItem address={address} name={ele.name} input={ele.input} fn={ele.fn}></FormItem>
           </Panel>
         );
       })}

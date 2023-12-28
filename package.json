@@ -13,7 +13,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@sentry/nextjs": "^7.19.0",
-    "aelf-web-login": "1.1.4-alpha.4",
+    "aelf-web-login": "1.1.10-alpha",
     "antd": "^4.21.7",
     "axios": "^0.24.0",
     "firebase": "^9.23.0",
