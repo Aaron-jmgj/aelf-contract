@@ -4,10 +4,10 @@ import { ConfigProvider } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
 import WebLoginProvider from './webLoginProvider';
 
-import { useEffect, useState } from 'react';
-import { store } from 'redux/store';
-import Loading from 'components/Loading';
-import { setEthData } from 'redux/reducer/data';
+// import { useEffect, useState } from 'react';
+// import { store } from 'redux/store';
+// import Loading from 'components/Loading';
+// import { setEthData } from 'redux/reducer/data';
 
 import { fetchEtherscan } from 'api/request';
 
