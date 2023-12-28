@@ -38,7 +38,7 @@ const Layout = dynamic(async () => {
         <AntdLayout className={`aelf-contract-wrapper`}>
           <Header />
           <AntdLayout.Content className={`aelf-contract-content min-h-[100vh] flex justify-center`}>
-            <Suspense fallback={<Loading />}>{children}</Suspense>
+            <Suspense>{children}</Suspense>
           </AntdLayout.Content>
         </AntdLayout>
       </>
