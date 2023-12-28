@@ -7,6 +7,11 @@ const aelf = new AElf(new AElf.providers.HttpProvider('https://explorer-test.ael
 // create a new wallet
 const newWallet = AElf.wallet.createNewWallet();
 
+const createAElfInstance = (rpcUrl: string) => {
+  const aelf = new AElf(new AElf.providers.HttpProvider(rpcUrl));
+  return aelf;
+};
+
 // get a system contract address, take AElf.ContractNames.Token as an example
 const tokenContractName = 'AElf.ContractNames.Token';
 
@@ -29,8 +34,12 @@ export const getTokenContractAddress = async () => {
  * @param tokenContractAddress address of token contract
  * @returns a contract instance.
  */
-export const getContractInstance = async (tokenContractAddress: string) => {
-  const tokenContract = await aelf.chain.contractAt(tokenContractAddress, newWallet);
+export const getContractInstance = async (tokenContractAddress: string, rpcUrl: string) => {
+  // const aelf = new AElf(new AElf.providers.HttpProvider('https://explorer-test.aelf.io/chain'));
+  const aelf = createAElfInstance(rpcUrl);
+  const wallet = AElf.wallet.createNewWallet();
+
+  const tokenContract = await aelf.chain.contractAt(tokenContractAddress, wallet);
   return tokenContract;
 };
 

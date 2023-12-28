@@ -1,7 +1,7 @@
-import { Button, Card } from 'antd';
+import { Button, Card, Input } from 'antd';
 import { AElfReactProvider } from '@aelf-react/core';
 import DynamicForm from './DynamicForm';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { getContractInstance } from 'utils/contractInstance';
 import { useAElfReact } from '@aelf-react/core';
 import { useEffectOnce } from 'react-use';
@@ -16,18 +16,29 @@ export interface IMethod {
   activeKey?: string | number;
 }
 
-export const tokenContractAddress = 'JRmBduh4nXWi1aXgdUsj5gJrzeZb2LxmrAbf7W99faZSvoAaE';
-
 function ContractDemo() {
   const { account, activate, deactivate } = useAElfReact();
-
   const [methods, setMethods] = useState<IMethod[]>([]);
+  const [tokenContractAddress, setTokenContractAddress] = useState<string>(
+    'JRmBduh4nXWi1aXgdUsj5gJrzeZb2LxmrAbf7W99faZSvoAaE',
+  );
+  const [rpcUrl, setRpcUrl] = useState<string>('https://explorer-test.aelf.io/chain');
 
   const getInfo = async () => {
-    const tokenContract = await getContractInstance(tokenContractAddress);
+    console.log('tokenContractAddress', tokenContractAddress);
 
-    const tokenMethods = adjustMethods(tokenContract);
-    setMethods(tokenMethods);
+    try {
+      const tokenContract = await getContractInstance(tokenContractAddress, rpcUrl);
+      console.log('tokenContract', tokenContract);
+
+      const tokenMethods = adjustMethods(tokenContract);
+      console.log('tokenMethods', tokenContract);
+
+      setMethods(tokenMethods);
+    } catch (error) {
+      console.log('error', error);
+      setMethods([]);
+    }
   };
 
   const changeWallet = useCallback(async () => {
@@ -56,6 +67,11 @@ function ContractDemo() {
     getInfo();
   });
 
+  useEffect(() => {
+    activate();
+    getInfo();
+  }, [tokenContractAddress, rpcUrl]);
+
   return (
     <Card
       title={<div className="text-lg font-bold">Contract Read & Write</div>}
@@ -63,16 +79,42 @@ function ContractDemo() {
     >
       <Card type="inner" className=" mb-4" title={<div className="text-lg font-bold">Wallet</div>}>
         <div>
+          <div className="mb-4">
+            Contract Address:
+            <Input
+              className="mt-2"
+              placeholder="please enter contract address"
+              value={tokenContractAddress}
+              onChange={(e) => setTokenContractAddress(e.target.value)}
+            ></Input>
+          </div>
+          <div className="mb-4">
+            RpcUrl:
+            <Input
+              className="mt-2"
+              placeholder="please enter rpcUrl"
+              value={rpcUrl}
+              onChange={(e) => setRpcUrl(e.target.value)}
+            ></Input>
+          </div>
           <Button type="default" className="mr-4" onClick={() => activate()}>
             activate
           </Button>
           <Button type="primary" onClick={() => changeWallet()}>
-            changeWallet
+            {account && account.length ? 'change wallet' : 'connect wallet'}
           </Button>
         </div>
-        <div className="mt-4 text-lg">
-          ACCOUNT: <span className="text-gray-500	ml-2">{account}</span>
-        </div>
+        {account && account.length ? (
+          <div className="mt-4 text-lg">
+            You have connected to the wallet!
+            <div>
+              address:
+              <span className="text-gray-500	ml-2">{account}</span>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-4 text-lg">You should connect wallet at first</div>
+        )}
       </Card>
       <Card type="inner" title={<div className="text-lg font-bold">Methods</div>}>
         <DynamicForm methods={methods}></DynamicForm>
