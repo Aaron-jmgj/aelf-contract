@@ -12,20 +12,20 @@ import { setEthData } from 'redux/reducer/data';
 import { fetchEtherscan } from 'api/request';
 
 function Provider({ children }: { children: React.ReactNode }) {
-  const [loading, setLoading] = useState(true);
-  const storeConfig = async () => {
-    const { result } = await fetchEtherscan();
-    store.dispatch(setEthData(result));
-    setLoading(false);
-  };
-  useEffect(() => {
-    storeConfig();
-  }, []);
+  // const [loading, setLoading] = useState(true);
+  // const storeConfig = async () => {
+  //   const { result } = await fetchEtherscan();
+  //   store.dispatch(setEthData(result));
+  //   setLoading(false);
+  // };
+  // useEffect(() => {
+  //   storeConfig();
+  // }, []);
   return (
     <>
       <StoreProvider>
         <ConfigProvider locale={enUS} autoInsertSpaceInButton={false}>
-          {loading ? <Loading></Loading> : <WebLoginProvider>{children}</WebLoginProvider>}
+          <WebLoginProvider>{children}</WebLoginProvider>
         </ConfigProvider>
       </StoreProvider>
     </>
