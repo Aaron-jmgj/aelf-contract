@@ -32,10 +32,15 @@ export default function FormItem({ name, input, fn, address }: IMethod) {
     const filedsValue = form.getFieldsValue();
 
     try {
-      await defaultAElfBridge.chain.getChainStatus();
+      const res = await defaultAElfBridge.chain.getChainStatus();
+
+      await activate();
+
       const contract = await defaultAElfBridge.chain.contractAt(address, {
         address: account as string,
       });
+      console.log('contract------', contract, address);
+
       const result = await contract[name](filedsValue);
       setRes(result);
       return;

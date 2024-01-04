@@ -2,7 +2,7 @@ import { Button, Card, Input } from 'antd';
 import { AElfReactProvider } from '@aelf-react/core';
 import DynamicForm from './DynamicForm';
 import { useState, useCallback, useEffect } from 'react';
-import { getContractInstance } from 'utils/contractInstance';
+import { getContractInstance, getAElfInstance } from 'utils/contractInstance';
 import { useAElfReact } from '@aelf-react/core';
 import { useEffectOnce } from 'react-use';
 
@@ -68,7 +68,19 @@ function ContractDemo() {
   });
 
   useEffect(() => {
-    activate();
+    const init = async () => {
+      const aelf = getAElfInstance(rpcUrl);
+      const chainStatus = await aelf.chain.getChainStatus();
+      const chainId = chainStatus.ChainId;
+      const isActive = await activate({
+        [chainId]: {
+          chainId,
+          rpcUrl,
+        },
+      });
+    };
+    init();
+
     getInfo();
   }, [tokenContractAddress, rpcUrl]);
 
@@ -129,6 +141,8 @@ const HomeProvider = () => {
       appName="example"
       nodes={{
         AELF: { rpcUrl: 'https://aelf-test-node.aelf.io', chainId: 'AELF' },
+        // TDVW: { rpcUrl: 'https://aelf-test-node.aelf.io', chainId: 'AELF' },
+        // TDVV: { rpcUrl: 'https://aelf-test-node.aelf.io', chainId: 'AELF' },
       }}
     >
       <ContractDemo></ContractDemo>
