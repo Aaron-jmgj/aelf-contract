@@ -20,6 +20,7 @@ export interface IMethod {
 function ContractDemo() {
   const { account, activate, deactivate } = useAElfReact();
   const [methods, setMethods] = useState<IMethod[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [tokenContractAddress, setTokenContractAddress] = useState<string>(
     'JRmBduh4nXWi1aXgdUsj5gJrzeZb2LxmrAbf7W99faZSvoAaE',
   );
@@ -35,9 +36,11 @@ function ContractDemo() {
       console.log('tokenMethods', tokenContract);
 
       setMethods(tokenMethods);
+      setLoading(false);
     } catch (error) {
       console.log('error', error);
       setMethods([]);
+      setLoading(false);
     }
   };
 
@@ -68,6 +71,7 @@ function ContractDemo() {
   });
 
   useEffect(() => {
+    setLoading(true);
     const init = async () => {
       const aelf = getAElfInstance(rpcUrl);
       const chainStatus = await aelf.chain.getChainStatus();
@@ -128,7 +132,7 @@ function ContractDemo() {
           <div className="mt-4 text-lg">You should connect wallet at first</div>
         )}
       </Card>
-      <Card type="inner" title={<div className="text-lg font-bold">Methods</div>}>
+      <Card loading={loading} type="inner" title={<div className="text-lg font-bold">Methods</div>}>
         <DynamicForm methods={methods} address={tokenContractAddress}></DynamicForm>
       </Card>
     </Card>
